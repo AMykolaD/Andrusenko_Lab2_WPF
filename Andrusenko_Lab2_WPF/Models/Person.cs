@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Andrusenko_Lab2_WPF.Tools;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +29,16 @@ namespace Andrusenko_Lab2_WPF
             SunSign = SunSignFromDate(birthdate);
             ChineseSign = ChineseSignFromDate(birthdate);
             IsBirthday = IsTodayBirthday(birthdate);
+            try
+            {
+                new MailAddress(email);
+            }
+            catch
+            {
+                throw new InvalidEmailException("Email is invalid");
+            }
+            if (Age(birthdate) >= 135) throw new TooOldException("You are older than the oldest human is");
+            if (Age(birthdate) < 0) throw new BornInFutureException("You are born in the future");
         }
         public Person(string name, string surname, string email) : this(name, surname, email, DateTime.Now)
         {

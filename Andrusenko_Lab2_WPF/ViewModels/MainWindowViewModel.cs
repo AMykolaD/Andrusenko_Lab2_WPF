@@ -176,25 +176,8 @@ namespace Andrusenko_Lab2_WPF.ViewModels
 
         private void ExecuteAsync()
         {
+            try
             {
-                int age = Person.Age((DateTime)Birthdate);
-                if (age > 135 || age < 0)
-                {
-                    if (age > 135)
-                        MessageBox.Show("Your age is too high", "Something's wrong");
-                    else
-                        MessageBox.Show("You are born in the future", "Something's wrong");
-                    IsAdultText = "";
-                    SunSignText = "";
-                    ChineseSignText = "";
-                    IsBirthdayText = "";
-
-                    NameTextBlock = "";
-                    SurnameTextBlock = "";
-                    EmailTextBlock = "";
-                    BirthdateTextBlock = "";
-                    return;
-                }
                 Person person;
                 person = new Person(NameTextBox, SurnameTextBox, EmailTextBox, (DateTime)Birthdate);
                 if (person.IsBirthday) MessageBox.Show($"You have a birthday today, {NameTextBox}!", "Congratulations!");
@@ -219,8 +202,21 @@ namespace Andrusenko_Lab2_WPF.ViewModels
                 IsBirthdayText = (person.IsBirthday ? "You have birthday today" : "Your birthday isn't today");
 
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ooops");
+                IsAdultText = "";
+                SunSignText = "";
+                ChineseSignText = "";
+                IsBirthdayText = "";
+
+                NameTextBlock = "";
+                SurnameTextBlock = "";
+                EmailTextBlock = "";
+                BirthdateTextBlock = "";
+            }
         }
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        protected void OnPropertyChanged([CallerMemberName] string name = "")
         {
             //Check if current thread is main
             if(App.Current.Dispatcher.Thread == Thread.CurrentThread) CommandA.RaiseCanExecuteChanged();
