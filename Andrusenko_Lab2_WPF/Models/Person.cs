@@ -37,6 +37,7 @@ namespace Andrusenko_Lab2_WPF
             {
                 throw new InvalidEmailException("Email is invalid");
             }
+            if (email.Contains(' ')) throw new InvalidEmailException("Email is invalid");
             if (Age(birthdate) >= 135) throw new TooOldException("You are older than the oldest human is");
             if (Age(birthdate) < 0) throw new BornInFutureException("You are born in the future");
         }
